@@ -1,11 +1,4 @@
-interface Driver {
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  driver_number: number;
-  team_colour: string;
-  headshot_url: string;
-}
+import { Driver } from "@/types/Driver";
 
 // TODO: Check if str is expected format
 function get_full_name(str: string): string {
