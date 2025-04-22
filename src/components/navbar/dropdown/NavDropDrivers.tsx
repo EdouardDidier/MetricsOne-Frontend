@@ -1,13 +1,5 @@
 import NavDropLink from "./NavDropLink";
-
-// TODO: Move to a generic type file
-interface Driver {
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  team_colour: string;
-  headshot_url: string;
-}
+import { Driver } from "@/types/Driver";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API

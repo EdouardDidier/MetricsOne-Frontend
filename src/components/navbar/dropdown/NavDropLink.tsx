@@ -4,15 +4,7 @@ import Link from "next/link";
 import { ReactNode, useContext } from "react";
 
 import { DropContext } from "../NavLink";
-
-// TODO: Move to a generic type file
-interface Driver {
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  team_colour: string;
-  headshot_url: string;
-}
+import { Driver } from "@/types/Driver";
 
 interface NavDropLinkProps {
   driver: Driver;
