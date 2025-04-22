@@ -19,7 +19,7 @@ export default async function NavDropDrivers() {
 
   return (
     <>
-      <div className="w-262 m-auto py-4 font-bold text-2xl border-b border-solid border-gray-700">
+      <div className="w-262 m-auto pt-4 pb-3 font-bold text-2xl border-b border-solid border-gray-700">
         <NavDropMainLink href="/drivers">
           <div className="group inline-block border-b-4 border-solid border-transparent hover:border-red-600 transition-colors">
             All Divers
