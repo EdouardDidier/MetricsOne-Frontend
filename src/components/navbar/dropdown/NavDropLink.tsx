@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ReactNode, useContext } from "react";
 
-import { DropContext } from "../Navlink";
+import { DropContext } from "../NavLink";
 
 // TODO: Move to a generic type file
 interface Driver {

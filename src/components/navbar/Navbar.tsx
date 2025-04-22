@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 
-import NavLink from "./Navlink";
-import NavDropLink from "./dropdown/NavDropLink";
+import NavLink from "./NavLink";
 import NavDropDrivers from "./dropdown/NavDropDrivers";
 
 export default function Navbar() {

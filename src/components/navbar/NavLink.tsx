@@ -13,7 +13,7 @@ interface navLinkProps {
 
 export const DropContext = createContext<() => void>(() => {});
 
-export default function NavDropLink({ href, name, children }: navLinkProps) {
+export default function NavLink({ href, name, children }: navLinkProps) {
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
 
