@@ -1,33 +1,33 @@
 "use client";
 
-import type { ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { ReactNode, useContext } from "react";
 
-interface navLinkProps {
-  href: string;
-  name: string;
+import { DropContext } from "../Navlink";
+
+// TODO: Move to a generic type file
+interface Driver {
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  team_colour: string;
+  headshot_url: string;
+}
+
+interface NavDropLinkProps {
+  driver: Driver;
   children: ReactNode;
 }
 
-export default function NavDropLink({ href, name, children }: navLinkProps) {
+export default function NavDropLink({ driver, children }: NavDropLinkProps) {
+  const closeFunc = useContext<() => void>(DropContext);
+
   return (
-    <div className="group/navlink">
-      <Link className="navbar-link" href={href} replace={true}>
-        <span className={usePathname().startsWith(href) ? "current" : ""}>
-          {name}
-        </span>
-        <i className="arrow rotate-45"></i>
-      </Link>
-      <div
-        className={`
-          fixed left-0 top-12 w-screen hidden group-hover/navlink:flex
-          text-white font-normal bg-gray-900 border-solid border-b 
-          border-red-500
-        `}
-      >
-        {children}
-      </div>
-    </div>
+    <Link
+      href={`/drivers/${driver.full_name.toLowerCase().replace(" ", "-")}`}
+      onClick={closeFunc}
+    >
+      {children}
+    </Link>
   );
 }

@@ -1,5 +1,6 @@
-import Link from "next/link";
+import NavDropLink from "./NavDropLink";
 
+// TODO: Move to a generic type file
 interface Driver {
   first_name: string;
   last_name: string;
@@ -62,24 +63,27 @@ export default async function NavDropDrivers() {
               style={{ borderRightColor: `#${driver.team_colour}` }}
             ></div>
           </div>
-          <Link // Foreground container
-            href={`/drivers/${driver.full_name.toLowerCase().replace(" ", "-")}`}
-            className={`
-              py-2 px-3 w-64 h-11
-              flex items-center
-              cursor-pointer
-          `}
+          <NavDropLink // Foreground container
+            driver={driver}
           >
-            <i // Team color
-              className="inline-block w-1.5 h-5 mr-2"
-              style={{ backgroundColor: `#${driver.team_colour}` }}
-            ></i>
-            {driver.first_name}
-            <span className="font-bold ml-1">
-              {driver.last_name.toUpperCase()}
-            </span>
-            <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
-          </Link>
+            <div
+              className={`
+                py-2 px-3 w-64 h-11
+                flex items-center
+                cursor-pointer
+              `}
+            >
+              <i // Team color
+                className="inline-block w-1.5 h-5 mr-2"
+                style={{ backgroundColor: `#${driver.team_colour}` }}
+              ></i>
+              {driver.first_name}
+              <span className="font-bold ml-1">
+                {driver.last_name.toUpperCase()}
+              </span>
+              <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
+            </div>
+          </NavDropLink>
         </div>
       ))}
     </div>
