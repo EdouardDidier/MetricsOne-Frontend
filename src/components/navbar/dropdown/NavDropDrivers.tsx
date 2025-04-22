@@ -1,5 +1,6 @@
 import NavDropLink from "./NavDropLink";
 import { Driver } from "@/types/Driver";
+import NavDropMainLink from "./NavDropMainLink";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API
@@ -17,67 +18,77 @@ export default async function NavDropDrivers() {
   );
 
   return (
-    <div className="grid grid-cols-4 gap-2 p-4 mx-auto">
-      {data.map((driver) => (
-        // Parent div for each driver
-        <div
-          key={driver.full_name}
-          className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 "
-        >
-          <div // Background container
-            className={`
+    <>
+      <div className="w-262 m-auto py-4 font-bold text-2xl border-b border-solid border-gray-700">
+        <NavDropMainLink href="/drivers">
+          <div className="group inline-block border-b-4 border-solid border-transparent hover:border-red-600 transition-colors">
+            All Divers
+            <i className="arrow border-red-600 scale-125 -rotate-45 relative bottom-0.5 mr-1"></i>
+          </div>
+        </NavDropMainLink>
+      </div>
+      <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
+        {data.map((driver) => (
+          // Parent div for each driver
+          <div
+            key={driver.full_name}
+            className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 "
+          >
+            <div // Background container
+              className={`
               absolute -z-10
-              w-64 h-11
+              w-full h-11
               flex flex-row-reverse 
             bg-gray-800
             `}
-          >
-            <div // Image aniamation
-              className={`
+            >
+              <div // Image aniamation
+                className={`
                 flex flex-row-reverse 
                 transition-[width]
                 h-full w-0 group-hover:w-12
               `}
-              style={{ backgroundColor: `#${driver.team_colour}` }}
-            >
-              <img
-                className="mr-3"
-                src={driver.headshot_url}
-                alt="Driver headshot"
-              />
-            </div>
-            <div // Skewed background animation
-              className={`
+                style={{ backgroundColor: `#${driver.team_colour}` }}
+              >
+                <img
+                  className="mr-3"
+                  src={driver.headshot_url}
+                  alt="Driver headshot"
+                />
+              </div>
+              <div // Skewed background animation
+                className={`
                 h-full 
                 border-solid border-t-transparent border-r-0 border-t-44
                 transition-[border] group-hover:border-r-30
               `}
-              style={{ borderRightColor: `#${driver.team_colour}` }}
-            ></div>
-          </div>
-          <NavDropLink // Foreground container
-            driver={driver}
-          >
-            <div
-              className={`
-                py-2 px-3 w-64 h-11
+                style={{ borderRightColor: `#${driver.team_colour}` }}
+              ></div>
+            </div>
+            <NavDropLink // Foreground container
+              driver={driver}
+            >
+              <div
+                className={`
+                py-2 px-3 w-full h-11
                 flex items-center
                 cursor-pointer
               `}
-            >
-              <i // Team color
-                className="inline-block w-1.5 h-5 mr-2"
-                style={{ backgroundColor: `#${driver.team_colour}` }}
-              ></i>
-              {driver.first_name}
-              <span className="font-bold ml-1">
-                {driver.last_name.toUpperCase()}
-              </span>
-              <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
-            </div>
-          </NavDropLink>
-        </div>
-      ))}
-    </div>
+              >
+                <i // Team color
+                  className="inline-block w-1.5 h-5 mr-2"
+                  style={{ backgroundColor: `#${driver.team_colour}` }}
+                ></i>
+                {driver.first_name}
+                <span className="font-bold ml-1">
+                  {driver.last_name.toUpperCase()}
+                </span>
+                <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
+              </div>
+            </NavDropLink>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

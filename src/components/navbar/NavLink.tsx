@@ -55,7 +55,7 @@ export default function NavLink({ href, name, children }: navLinkProps) {
       <div
         ref={ref}
         className={`
-          fixed left-0 top-12 w-screen flex invisible
+          fixed left-0 top-12 w-screen flex flex-col invisible
           text-white font-normal bg-gray-900 border-solid border-b 
           border-red-500
         `}
