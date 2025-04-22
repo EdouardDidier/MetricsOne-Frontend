@@ -1,8 +1,4 @@
-interface Driver {
-  full_name: string;
-  headshot_url: string;
-  driver_number: number;
-}
+import { Driver } from "@/types/Driver";
 
 export default async function Page() {
   const response = await fetch(
@@ -13,7 +9,7 @@ export default async function Page() {
   return (
     <div>
       <title>F1Metrics - Drivers</title>
-      <h1>Drivers</h1>
+      <h1>F1 Drivers 2025</h1>
       <div className="flex flex-row flex-wrap">
         {data.map((driver) => (
           <div
