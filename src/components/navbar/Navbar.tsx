@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import NavLink from "./NavLink";
 import NavDropDrivers from "./dropdown/NavDropDrivers";
+import NavDropTeams from "./dropdown/NavDropTeams";
 
 export default function Navbar() {
   return (
@@ -14,7 +15,9 @@ export default function Navbar() {
         </Suspense>
       </NavLink>
       <NavLink href="/teams" name="Teams">
-        <Suspense fallback={<div>Loading...</div>}>Test Teams</Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <NavDropTeams />
+        </Suspense>
       </NavLink>
     </nav>
   );
