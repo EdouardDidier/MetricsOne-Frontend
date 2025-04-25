@@ -66,7 +66,7 @@ export default async function NavDropDrivers() {
               ></div>
             </div>
             <NavDropLink // Foreground container
-              driver={driver}
+              href={`/drivers/${driver.full_name.toLowerCase().replaceAll(" ", "-")}`}
             >
               <div
                 className={`
