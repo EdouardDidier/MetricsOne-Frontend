@@ -1,6 +1,6 @@
 import NavDropLink from "./NavDropLink";
-import { Team } from "@/types/team";
 import NavDropMainLink from "./NavDropMainLink";
+import { Team } from "@/types/Team";
 
 export default async function NavDropTeams() {
   // Fetch teams data from API
@@ -27,32 +27,41 @@ export default async function NavDropTeams() {
           // Parent div for each driver
           <div
             key={team.name}
-            className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 "
+            className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
           >
-            <div // Background container
-              className={`
-              absolute -z-10
-              w-full h-11
-              flex flex-row-reverse 
-            bg-gray-800
-            `}
-            ></div>
             <NavDropLink // Foreground container
-              href={`/teams/${team.name.toLowerCase().replaceAll(" ", "-")}`}
+              href={`/teams/${team.url_name}`}
             >
               <div
                 className={`
-                py-2 px-3 w-full h-11
-                flex items-center
-                cursor-pointer
-              `}
+                  w-full h-17
+                  flex flex-row
+                  cursor-pointer
+                `}
               >
-                <i // Team color
-                  className="inline-block w-1.5 h-5 mr-2"
-                  style={{ backgroundColor: `#${team.colour}` }}
-                ></i>
-                {team.name}
-                <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
+                <div
+                  className={`
+                  py-2 px-3 w-full h-full absolute
+                  flex items-center justify-end text-lg
+                  group-hover:opacity-0 transition-[opacity]
+                  cursor-pointer
+                `}
+                >
+                  {team.name}
+                  <i className="arrow -rotate-45 ml-2"></i>
+                </div>
+                <div className="absolute w-full h-full flex items-center">
+                  <i // Team color
+                    className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
+                    style={{ backgroundColor: `#${team.colour}` }}
+                  ></i>
+                </div>
+                <div className="relative right-41 group-hover:right-0 transition-[right]">
+                  <img
+                    src={`/teams/cars/${team.year}/${team.url_name}.avif`}
+                    alt="Picture of team car"
+                  />
+                </div>
               </div>
             </NavDropLink>
           </div>
