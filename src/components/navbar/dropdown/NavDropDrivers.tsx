@@ -1,6 +1,6 @@
 import NavDropLink from "./NavDropLink";
-import { Driver } from "@/types/Driver";
 import NavDropMainLink from "./NavDropMainLink";
+import { Driver } from "@/types/Driver";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API
@@ -20,12 +20,7 @@ export default async function NavDropDrivers() {
   return (
     <>
       <div className="w-262 m-auto pt-4 pb-3 font-bold text-2xl border-b border-solid border-gray-700">
-        <NavDropMainLink href="/drivers">
-          <div className="group inline-block border-b-4 border-solid border-transparent hover:border-red-600 transition-colors">
-            All Divers
-            <i className="arrow border-red-600 scale-125 -rotate-45 relative bottom-0.5 mr-1"></i>
-          </div>
-        </NavDropMainLink>
+        <NavDropMainLink href="/drivers">All Drivers</NavDropMainLink>
       </div>
       <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
         {data.map((driver) => (
