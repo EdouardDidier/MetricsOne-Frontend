@@ -50,7 +50,7 @@ export default function NavLink({ href, name, children }: navLinkProps) {
         <span className={pathname.startsWith(href) ? "current" : ""}>
           {name}
         </span>
-        <i className="arrow rotate-45"></i>
+        <i className="arrow rotate-45 ml-3"></i>
       </Link>
       <div
         ref={ref}

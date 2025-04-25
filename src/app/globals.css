@@ -21,6 +21,6 @@
   }
 
   .arrow {
-    @apply inline-block border-solid border-white border-r-3 border-b-3 ml-3 p-[3px];
+    @apply inline-block border-solid border-white border-r-3 border-b-3 p-[3px];
   }
 }
