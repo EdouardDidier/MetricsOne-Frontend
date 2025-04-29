@@ -1,3 +1,4 @@
+import Image from "next/image";
 import NavDropLink from "./NavDropLink";
 import NavDropMainLink from "./NavDropMainLink";
 import { Driver } from "@/types/Driver";
@@ -45,10 +46,12 @@ export default async function NavDropDrivers() {
               `}
                 style={{ backgroundColor: `#${driver.team_colour}` }}
               >
-                <img
+                <Image
                   className="mr-3"
                   src={driver.headshot_url}
-                  alt="Driver headshot"
+                  alt={`Picture of ${driver.full_name}`}
+                  width={93}
+                  height={93}
                 />
               </div>
               <div // Skewed background animation
