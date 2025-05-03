@@ -4,16 +4,13 @@ import NavDropMainLink from "./NavDropMainLink";
 import { Team } from "@/types/Team";
 
 export default async function NavDropTeams() {
-  //TODO: Fetch url from API when avalaible
-  const IMAGE_URL =
-    "https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/";
-
   // Fetch teams data from API
   const response = await fetch(
-    process.env.API_HOST + ":" + process.env.API_PORT + "/teams",
+    process.env.API_HOST + ":" + process.env.API_PORT + "/teams?expand=images",
   );
 
   // TODO: Handle fetch error
+  // TODO: Handle undefined images
   // if (!data) return <>Error while loading data</>;
   const data: Array<Team> = await response.json();
 
@@ -35,7 +32,7 @@ export default async function NavDropTeams() {
             className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
           >
             <NavDropLink // Foreground container
-              href={`/teams/${team.url_name}`}
+              href={`/teams/${team.images?.car_url}`}
             >
               <div
                 className={`
@@ -63,7 +60,7 @@ export default async function NavDropTeams() {
                 </div>
                 <div className="relative right-41 group-hover:right-0 transition-[right]">
                   <Image
-                    src={`${IMAGE_URL}/${team.year}/${team.url_name}.avif`}
+                    src={`${process.env.IMAGE_URL}${team.images?.car_url}.avif`}
                     alt={`Picture of ${team.name} car`}
                     width={465}
                     height={129}
