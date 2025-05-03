@@ -38,7 +38,6 @@ export default async function NavDropDrivers() {
             driver.first_name + " " + driver.last_name.toUpperCase();
           const headshot_url =
             process.env.IMAGE_URL + driver.images?.headshot_url;
-          console.log(headshot_url);
 
           return (
             // Parent div for each driver
