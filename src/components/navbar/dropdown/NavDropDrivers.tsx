@@ -42,22 +42,22 @@ export default async function NavDropDrivers() {
             // Parent div for each driver
             <div
               key={full_name}
-              className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 "
+              className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400"
             >
               <div // Background container
                 className={`
-              absolute -z-10
-              w-full h-11
-              flex flex-row-reverse 
-            bg-gray-800
-            `}
+                  absolute -z-10
+                  w-full h-11
+                  flex flex-row-reverse 
+                bg-gray-800
+                `}
               >
                 <div // Image aniamation
                   className={`
-                flex flex-row-reverse 
-                transition-[width]
-                h-full w-0 group-hover:w-12
-              `}
+                    flex flex-row-reverse 
+                    transition-[width]
+                    h-full w-0 group-hover:w-12
+                  `}
                   style={{ backgroundColor: `#${driver.team.colour}` }}
                 >
                   <Image
@@ -70,10 +70,10 @@ export default async function NavDropDrivers() {
                 </div>
                 <div // Skewed background animation
                   className={`
-                h-full 
-                border-solid border-t-transparent border-r-0 border-t-44
-                transition-[border] group-hover:border-r-30
-              `}
+                    h-full 
+                    border-solid border-t-transparent border-r-0 border-t-44
+                    transition-[border] group-hover:border-r-30
+                  `}
                   style={{ borderRightColor: `#${driver.team.colour}` }}
                 ></div>
               </div>
@@ -82,10 +82,10 @@ export default async function NavDropDrivers() {
               >
                 <div
                   className={`
-                py-2 px-3 w-full h-11
-                flex items-center
-                cursor-pointer
-              `}
+                    py-2 px-3 w-full h-11
+                    flex items-center
+                    cursor-pointer
+                  `}
                 >
                   <i // Team color
                     className="inline-block w-1.5 h-5 mr-2"
