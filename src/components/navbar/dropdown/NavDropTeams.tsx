@@ -10,7 +10,6 @@ export default async function NavDropTeams() {
   );
 
   // TODO: Handle fetch error
-  // TODO: Handle undefined images
   // if (!data) return <>Error while loading data</>;
   const data: Array<Team> = await response.json();
 
@@ -25,51 +24,57 @@ export default async function NavDropTeams() {
         <NavDropMainLink href="/teams">All Teams</NavDropMainLink>
       </div>
       <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
-        {data.map((team) => (
-          // Parent div for each driver
-          <div
-            key={team.name}
-            className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
-          >
-            <NavDropLink // Foreground container
-              href={`/teams/${team.images?.car_url}`}
+        {data.map((team) => {
+          if (team.images == null) {
+            return "Error"; // TODO:Handle error
+          }
+
+          return (
+            // Parent div for each driver
+            <div
+              key={team.name}
+              className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
             >
-              <div
-                className={`
+              <NavDropLink // Foreground container
+                href={`/teams/${team.images.car_url}`}
+              >
+                <div
+                  className={`
                   w-full h-17
                   flex flex-row
                   cursor-pointer
                 `}
-              >
-                <div
-                  className={`
+                >
+                  <div
+                    className={`
                   py-2 px-3 w-full h-full absolute
                   flex items-center justify-end text-lg
                   group-hover:opacity-0 transition-[opacity]
                   cursor-pointer
                 `}
-                >
-                  {team.name}
-                  <i className="arrow -rotate-45 ml-2"></i>
+                  >
+                    {team.name}
+                    <i className="arrow -rotate-45 ml-2"></i>
+                  </div>
+                  <div className="absolute w-full h-full flex items-center">
+                    <i // Team color
+                      className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
+                      style={{ backgroundColor: `#${team.colour}` }}
+                    ></i>
+                  </div>
+                  <div className="relative right-41 group-hover:right-0 transition-[right]">
+                    <Image
+                      src={`${process.env.IMAGE_URL}${team.images.car_url}.avif`}
+                      alt={`Picture of ${team.name} car`}
+                      width={465}
+                      height={129}
+                    />
+                  </div>
                 </div>
-                <div className="absolute w-full h-full flex items-center">
-                  <i // Team color
-                    className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
-                    style={{ backgroundColor: `#${team.colour}` }}
-                  ></i>
-                </div>
-                <div className="relative right-41 group-hover:right-0 transition-[right]">
-                  <Image
-                    src={`${process.env.IMAGE_URL}${team.images?.car_url}.avif`}
-                    alt={`Picture of ${team.name} car`}
-                    width={465}
-                    height={129}
-                  />
-                </div>
-              </div>
-            </NavDropLink>
-          </div>
-        ))}
+              </NavDropLink>
+            </div>
+          );
+        })}
       </div>
     </>
   );
