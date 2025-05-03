@@ -64,8 +64,8 @@ export default async function NavDropDrivers() {
                     className="mr-3"
                     src={headshot_url}
                     alt={`Picture of ${full_name}`}
-                    width={93}
-                    height={93}
+                    width={840}
+                    height={840}
                   />
                 </div>
                 <div // Skewed background animation
