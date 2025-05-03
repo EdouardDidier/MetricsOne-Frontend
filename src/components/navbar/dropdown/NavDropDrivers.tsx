@@ -14,7 +14,6 @@ export default async function NavDropDrivers() {
   );
 
   // TODO: Handle fetch error
-  // TODO: Handle undefined images
   // if (!data) return <>Error while loading data</>;
   const data: Array<Driver> = await response.json();
 
@@ -37,7 +36,7 @@ export default async function NavDropDrivers() {
           const full_name =
             driver.first_name + " " + driver.last_name.toUpperCase();
           const headshot_url =
-            process.env.IMAGE_URL + driver.images?.headshot_url;
+            process.env.IMAGE_URL + driver.images.headshot_url;
 
           return (
             // Parent div for each driver
@@ -59,7 +58,7 @@ export default async function NavDropDrivers() {
                 transition-[width]
                 h-full w-0 group-hover:w-12
               `}
-                  style={{ backgroundColor: `#${driver.team?.colour}` }}
+                  style={{ backgroundColor: `#${driver.team.colour}` }}
                 >
                   <Image
                     className="mr-3"
@@ -75,7 +74,7 @@ export default async function NavDropDrivers() {
                 border-solid border-t-transparent border-r-0 border-t-44
                 transition-[border] group-hover:border-r-30
               `}
-                  style={{ borderRightColor: `#${driver.team?.colour}` }}
+                  style={{ borderRightColor: `#${driver.team.colour}` }}
                 ></div>
               </div>
               <NavDropLink // Foreground container
@@ -90,7 +89,7 @@ export default async function NavDropDrivers() {
                 >
                   <i // Team color
                     className="inline-block w-1.5 h-5 mr-2"
-                    style={{ backgroundColor: `#${driver.team?.colour}` }}
+                    style={{ backgroundColor: `#${driver.team.colour}` }}
                   ></i>
                   {driver.first_name}
                   <span className="font-bold ml-1">

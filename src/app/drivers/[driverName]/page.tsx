@@ -35,7 +35,7 @@ export default async function Page({
     `}
     >
       <Image
-        src={process.env.IMAGE_URL + driver.images.headshot_url}
+        src={process.env.IMAGE_URL + driver.images.profile_url}
         alt={`Picture of ${full_name}`}
         width={840}
         height={840}
