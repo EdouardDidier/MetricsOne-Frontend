@@ -1,39 +1,46 @@
 import { Driver } from "@/types/Driver";
-
-// TODO: Check if str is expected format
-function get_full_name(str: string): string {
-  const split = str.split("-");
-
-  return (
-    split[0].charAt(0).toUpperCase() +
-    split[0].slice(1) +
-    " " +
-    split[1].toUpperCase()
-  );
-}
+import Image from "next/image";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ driverName: string }>;
 }) {
-  const driverName = get_full_name((await params).driverName);
+  const driverName = (await params).driverName;
 
   const response = await fetch(
-    "https://api.openf1.org/v1/drivers?session_key=latest&full_name=" +
-      driverName,
+    process.env.API_HOST +
+      ":" +
+      process.env.API_PORT +
+      "/drivers/" +
+      driverName +
+      "?expand=images,team",
   );
-  const data: Driver = (await response.json())[0]; //TODO: Check if there is at least one elem in the response
+
+  const driver: Driver = await response.json(); //TODO: Handle error
+
+  if (driver.images == null || driver.team == null) {
+    return "Error";
+  }
+
+  const full_name = driver.first_name + " " + driver.last_name.toUpperCase();
 
   return (
     <div
       className={`
-      m-2 p-2
-      border-solid border-1 border-gray-300
+        flex flex-col
+        w-64
+        m-2 p-2
+        border-solid border-1 border-gray-300
     `}
     >
-      <img src={data.headshot_url} alt={data.full_name} />
-      <h1>{data.full_name}</h1>
+      <Image
+        src={process.env.IMAGE_URL + driver.images.headshot_url}
+        alt={`Picture of ${full_name}`}
+        width={840}
+        height={840}
+      />
+      <h1>{full_name}</h1>
     </div>
   );
 }

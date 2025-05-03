@@ -17,6 +17,10 @@ export default async function Page() {
       <h1>F1 Drivers 2025</h1>
       <div className="flex flex-row flex-wrap">
         {data.map((driver) => {
+          if (driver.images == null) {
+            return "Error"; // TODO: Add error handling
+          }
+
           const full_name =
             driver.first_name + " " + driver.last_name.toUpperCase();
 
