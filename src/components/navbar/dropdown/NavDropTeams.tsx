@@ -45,22 +45,23 @@ export default async function NavDropTeams() {
                   cursor-pointer
                 `}
                 >
-                  <div
-                    className={`
-                  py-2 px-3 w-full h-full absolute
-                  flex items-center justify-end text-lg
-                  group-hover:opacity-0 transition-[opacity]
-                  cursor-pointer
-                `}
-                  >
-                    {team.name}
-                    <i className="arrow -rotate-45 ml-2"></i>
-                  </div>
                   <div className="absolute w-full h-full flex items-center">
                     <i // Team color
                       className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
                       style={{ backgroundColor: `#${team.colour}` }}
                     ></i>
+                  </div>
+                  <div
+                    className={`
+                      py-2 px-3 w-full h-full absolute
+                      flex items-center justify-end 
+                      cursor-pointer
+                    `}
+                  >
+                    <span className="relative top-0 left-0 text-lg group-hover:top-[-23px] group-hover:left-5 group-hover:text-sm transition-[top,left,text]">
+                      {team.name}
+                    </span>
+                    <i className="arrow -rotate-45 ml-2 group-hover:opacity-0 transition-[opacity]"></i>
                   </div>
                   <div className="relative right-41 group-hover:right-0 transition-[right]">
                     <Image
