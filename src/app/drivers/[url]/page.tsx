@@ -4,16 +4,16 @@ import Image from "next/image";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ driverName: string }>;
+  params: Promise<{ url: string }>;
 }) {
-  const driverName = (await params).driverName;
+  const driverUrl = (await params).url;
 
   const response = await fetch(
     process.env.API_HOST +
       ":" +
       process.env.API_PORT +
       "/drivers/" +
-      driverName +
+      driverUrl +
       "?expand=images,team",
   );
 
