@@ -2,6 +2,7 @@ import Image from "next/image";
 import NavDropLink from "./NavDropLink";
 import NavDropMainLink from "./NavDropMainLink";
 import { Driver } from "@/types/Driver";
+import ActiveBorder from "@/components/utils/ActiveBorder";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API
@@ -40,9 +41,11 @@ export default async function NavDropDrivers() {
 
           return (
             // Parent div for each driver
-            <div
+            <ActiveBorder
               key={full_name}
-              className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400"
+              hoverColour={`#${driver.team.colour}`}
+              currentPath={`/drivers/${driver.url}`}
+              className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 transition-colors"
             >
               <div // Background container
                 className={`
@@ -98,7 +101,7 @@ export default async function NavDropDrivers() {
                   <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
                 </div>
               </NavDropLink>
-            </div>
+            </ActiveBorder>
           );
         })}
       </div>

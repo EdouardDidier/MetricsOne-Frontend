@@ -2,6 +2,7 @@ import Image from "next/image";
 import NavDropLink from "./NavDropLink";
 import NavDropMainLink from "./NavDropMainLink";
 import { Team } from "@/types/Team";
+import ActiveBorder from "@/components/utils/ActiveBorder";
 
 export default async function NavDropTeams() {
   // Fetch teams data from API
@@ -31,12 +32,14 @@ export default async function NavDropTeams() {
 
           return (
             // Parent div for each driver
-            <div
+            <ActiveBorder
               key={team.name}
-              className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
+              hoverColour={`#${team.colour}`}
+              currentPath={`/teams/${team.url}`}
+              className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 transition-colors"
             >
               <NavDropLink // Foreground container
-                href={`/teams/${team.images.car_url}`}
+                href={`/teams/${team.url}`}
               >
                 <div
                   className={`
@@ -73,7 +76,7 @@ export default async function NavDropTeams() {
                   </div>
                 </div>
               </NavDropLink>
-            </div>
+            </ActiveBorder>
           );
         })}
       </div>
