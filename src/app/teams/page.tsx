@@ -29,7 +29,6 @@ export default async function Page() {
               border-solid border-1 border-gray-300
               m-1 p-2 w-128
             `}
-                key={team.name}
               >
                 <Image
                   src={process.env.IMAGE_URL + team.images.car_url}
