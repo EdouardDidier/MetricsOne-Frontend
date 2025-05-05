@@ -1,13 +1,19 @@
+import Image from "next/image";
 import NavDropLink from "./NavDropLink";
 import NavDropMainLink from "./NavDropMainLink";
 import { Driver } from "@/types/Driver";
+import ActiveBorder from "@/components/utils/ActiveBorder";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API
   // TODO: Update with M1 API when available
   const response = await fetch(
-    "https://api.openf1.org/v1/drivers?session_key=latest",
+    process.env.API_HOST +
+      ":" +
+      process.env.API_PORT +
+      "/drivers?expand=team,images",
   );
+
   // TODO: Handle fetch error
   // if (!data) return <>Error while loading data</>;
   const data: Array<Driver> = await response.json();
@@ -23,66 +29,81 @@ export default async function NavDropDrivers() {
         <NavDropMainLink href="/drivers">All Drivers</NavDropMainLink>
       </div>
       <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
-        {data.map((driver) => (
-          // Parent div for each driver
-          <div
-            key={driver.full_name}
-            className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 "
-          >
-            <div // Background container
-              className={`
-              absolute -z-10
-              w-full h-11
-              flex flex-row-reverse 
-            bg-gray-800
-            `}
+        {data.map((driver) => {
+          if (driver.images == null || driver.team == null) {
+            return "Error";
+          } //TODO: Handle null object
+
+          const full_name =
+            driver.first_name + " " + driver.last_name.toUpperCase();
+          const headshot_url =
+            process.env.IMAGE_URL + driver.images.headshot_url;
+
+          return (
+            // Parent div for each driver
+            <ActiveBorder
+              key={full_name}
+              hoverColour={`#${driver.team.colour}`}
+              currentPath={`/drivers/${driver.url}`}
+              className="group relative rounded-br-xl overflow-hidden border-solid border-1 border-gray-400 transition-colors"
             >
-              <div // Image aniamation
+              <div // Background container
                 className={`
-                flex flex-row-reverse 
-                transition-[width]
-                h-full w-0 group-hover:w-12
-              `}
-                style={{ backgroundColor: `#${driver.team_colour}` }}
+                  absolute -z-10
+                  w-full h-11
+                  flex flex-row-reverse 
+                bg-gray-800
+                `}
               >
-                <img
-                  className="mr-3"
-                  src={driver.headshot_url}
-                  alt="Driver headshot"
-                />
+                <div // Image aniamation
+                  className={`
+                    flex flex-row-reverse 
+                    transition-[width]
+                    h-full w-0 group-hover:w-12
+                  `}
+                  style={{ backgroundColor: `#${driver.team.colour}` }}
+                >
+                  <Image
+                    className="mr-3"
+                    src={headshot_url}
+                    alt={`Picture of ${full_name}`}
+                    width={840}
+                    height={840}
+                  />
+                </div>
+                <div // Skewed background animation
+                  className={`
+                    h-full 
+                    border-solid border-t-transparent border-r-0 border-t-44
+                    transition-[border] group-hover:border-r-30
+                  `}
+                  style={{ borderRightColor: `#${driver.team.colour}` }}
+                ></div>
               </div>
-              <div // Skewed background animation
-                className={`
-                h-full 
-                border-solid border-t-transparent border-r-0 border-t-44
-                transition-[border] group-hover:border-r-30
-              `}
-                style={{ borderRightColor: `#${driver.team_colour}` }}
-              ></div>
-            </div>
-            <NavDropLink // Foreground container
-              href={`/drivers/${driver.full_name.toLowerCase().replaceAll(" ", "-")}`}
-            >
-              <div
-                className={`
-                py-2 px-3 w-full h-11
-                flex items-center
-                cursor-pointer
-              `}
+              <NavDropLink // Foreground container
+                href={`/drivers/${driver.url}`}
               >
-                <i // Team color
-                  className="inline-block w-1.5 h-5 mr-2"
-                  style={{ backgroundColor: `#${driver.team_colour}` }}
-                ></i>
-                {driver.first_name}
-                <span className="font-bold ml-1">
-                  {driver.last_name.toUpperCase()}
-                </span>
-                <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
-              </div>
-            </NavDropLink>
-          </div>
-        ))}
+                <div
+                  className={`
+                    py-2 px-3 w-full h-11
+                    flex items-center
+                    cursor-pointer
+                  `}
+                >
+                  <i // Team color
+                    className="inline-block w-1.5 h-5 mr-2"
+                    style={{ backgroundColor: `#${driver.team.colour}` }}
+                  ></i>
+                  {driver.first_name}
+                  <span className="font-bold ml-1">
+                    {driver.last_name.toUpperCase()}
+                  </span>
+                  <i className="arrow -rotate-45 ml-auto transition-[opacity] group-hover:opacity-0"></i>
+                </div>
+              </NavDropLink>
+            </ActiveBorder>
+          );
+        })}
       </div>
     </>
   );

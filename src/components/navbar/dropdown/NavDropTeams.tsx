@@ -1,11 +1,13 @@
+import Image from "next/image";
 import NavDropLink from "./NavDropLink";
 import NavDropMainLink from "./NavDropMainLink";
 import { Team } from "@/types/Team";
+import ActiveBorder from "@/components/utils/ActiveBorder";
 
 export default async function NavDropTeams() {
   // Fetch teams data from API
   const response = await fetch(
-    process.env.API_HOST + ":" + process.env.API_PORT + "/teams",
+    process.env.API_HOST + ":" + process.env.API_PORT + "/teams?expand=images",
   );
 
   // TODO: Handle fetch error
@@ -23,49 +25,60 @@ export default async function NavDropTeams() {
         <NavDropMainLink href="/teams">All Teams</NavDropMainLink>
       </div>
       <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
-        {data.map((team) => (
-          // Parent div for each driver
-          <div
-            key={team.name}
-            className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 "
-          >
-            <NavDropLink // Foreground container
-              href={`/teams/${team.url_name}`}
+        {data.map((team) => {
+          if (team.images == null) {
+            return "Error"; // TODO:Handle error
+          }
+
+          return (
+            // Parent div for each driver
+            <ActiveBorder
+              key={team.name}
+              hoverColour={`#${team.colour}`}
+              currentPath={`/teams/${team.url}`}
+              className="group relative rounded-br-xl overflow-hidden bg-gray-800 border-solid border-1 border-gray-400 transition-colors"
             >
-              <div
-                className={`
+              <NavDropLink // Foreground container
+                href={`/teams/${team.url}`}
+              >
+                <div
+                  className={`
                   w-full h-17
                   flex flex-row
                   cursor-pointer
                 `}
-              >
-                <div
-                  className={`
-                  py-2 px-3 w-full h-full absolute
-                  flex items-center justify-end text-lg
-                  group-hover:opacity-0 transition-[opacity]
-                  cursor-pointer
-                `}
                 >
-                  {team.name}
-                  <i className="arrow -rotate-45 ml-2"></i>
+                  <div className="absolute w-full h-full flex items-center">
+                    <i // Team color
+                      className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
+                      style={{ backgroundColor: `#${team.colour}` }}
+                    ></i>
+                  </div>
+                  <div
+                    className={`
+                      py-2 px-3 w-full h-full absolute
+                      flex items-center justify-end 
+                      cursor-pointer
+                    `}
+                  >
+                    <span className="relative top-0 left-0 text-lg group-hover:top-[-23px] group-hover:left-5 group-hover:text-sm transition-[top,left,text]">
+                      {team.name}
+                    </span>
+                    <i className="arrow -rotate-45 ml-2 group-hover:opacity-0 transition-[opacity]"></i>
+                  </div>
+                  <div className="relative right-41 group-hover:right-0 transition-[right]">
+                    <Image
+                      src={`${process.env.IMAGE_URL}${team.images.car_url}.avif`}
+                      alt={`Picture of ${team.name} car`}
+                      width={465}
+                      height={129}
+                    />
+                  </div>
                 </div>
-                <div className="absolute w-full h-full flex items-center">
-                  <i // Team color
-                    className="w-full h-6 relative left-full group-hover:left-0 transition-[left]"
-                    style={{ backgroundColor: `#${team.colour}` }}
-                  ></i>
-                </div>
-                <div className="relative right-41 group-hover:right-0 transition-[right]">
-                  <img
-                    src={`/teams/cars/${team.year}/${team.url_name}.avif`}
-                    alt="Picture of team car"
-                  />
-                </div>
-              </div>
-            </NavDropLink>
-          </div>
-        ))}
+              </NavDropLink>
+            </ActiveBorder>
+          );
+        })}
       </div>
     </>
   );
