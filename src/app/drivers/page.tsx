@@ -1,5 +1,6 @@
 import { Driver } from "@/types/Driver";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Page() {
   const response = await fetch(
@@ -25,21 +26,22 @@ export default async function Page() {
             driver.first_name + " " + driver.last_name.toUpperCase();
 
           return (
-            <div
-              className={`
+            <Link key={full_name} href={`/drivers/${driver.url}`}>
+              <div
+                className={`
               border-solid border-1 border-gray-300
               m-1 p-2 w-32
             `}
-              key={full_name}
-            >
-              <Image
-                src={process.env.IMAGE_URL + driver.images.headshot_url}
-                alt={`Picture of ${full_name}`}
-                width={840}
-                height={840}
-              />
-              {driver.number} {full_name}
-            </div>
+              >
+                <Image
+                  src={process.env.IMAGE_URL + driver.images.headshot_url}
+                  alt={`Picture of ${full_name}`}
+                  width={840}
+                  height={840}
+                />
+                {driver.number} {full_name}
+              </div>
+            </Link>
           );
         })}
       </div>
