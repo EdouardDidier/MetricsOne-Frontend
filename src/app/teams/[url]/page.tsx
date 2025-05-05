@@ -39,6 +39,12 @@ export default async function Page({
         height={764}
       />
       <h1>{team.name}</h1>
+      <div>
+        {team.drivers[0].first_name} {team.drivers[0].last_name}
+      </div>
+      <div>
+        {team.drivers[1].first_name} {team.drivers[1].last_name}
+      </div>
     </div>
   );
 }
