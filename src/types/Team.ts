@@ -1,6 +1,15 @@
+import { Driver } from "./Driver";
+
 export interface Team {
   name: string;
-  url_name: string;
+  url: string;
   colour: string;
   year: number;
+  images?: TeamsImages;
+  drivers?: Array<Driver>;
+}
+
+interface TeamsImages {
+  car_url: string;
+  logo_url: string;
 }
