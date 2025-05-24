@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
     IMAGE_URL: process.env.IMAGE_URL,
   },
   images: {
-    remotePatterns: [new URL("https://media.formula1.com/**")],
+    remotePatterns: [new URL(process.env.IMAGE_URL + "/**")],
   },
+  output: "standalone",
 };
 
 export default nextConfig;

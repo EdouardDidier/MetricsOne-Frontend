@@ -1,7 +1,17 @@
-# Stage 1: Install dependencies and build the app
-FROM node:alpine AS builder
+# Stage 1: Install dependencies
+FROM node:alpine AS deps
+WORKDIR /app
 
-# Set working directory
+RUN apk add --no-cache libc6-compat
+
+COPY package*.json ./
+
+RUN npm install
+
+
+
+# Stage 2: Build the app
+FROM node:alpine AS builder
 WORKDIR /app
 
 # Set environment variables for build time 
@@ -9,27 +19,30 @@ ENV API_HOST=http://host.docker.internal
 ENV API_PORT=8080
 ENV IMAGE_URL=https://media.formula1.com
 
-# Install dependencies
-COPY package.json package-lock.json ./
-RUN npm install
+COPY --from=deps /app/node_modules ./node_modules
 
-# Copy rest of the app files
 COPY . .
 
-# Build the Next.js app
 RUN npm run build
 
-# Stage 2: Production image with minimal footprint
-FROM node:alpine AS web
 
-# Set working directory
+
+# Stage 3: Production image with minimal footprint
+FROM node:alpine AS web
 WORKDIR /app
 
-# Copy built application from builder stage
-COPY --from=builder /app/.next ./.next
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
 
 # Run the Next.js app
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
