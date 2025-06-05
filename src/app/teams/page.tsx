@@ -7,7 +7,7 @@ export default async function Page() {
     process.env.API_HOST +
       ":" +
       process.env.API_PORT +
-      "/teams?expand=images,drivers",
+      "/2025/teams?expand=images,drivers",
   );
 
   const teams: Array<Team> = await response.json();

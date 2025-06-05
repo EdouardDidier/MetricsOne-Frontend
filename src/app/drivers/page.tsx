@@ -7,7 +7,7 @@ export default async function Page() {
     process.env.API_HOST +
       ":" +
       process.env.API_PORT +
-      "/drivers?expand=team,images",
+      "/2025/drivers?expand=team,images",
   );
   const data: Array<Driver> = await response.json();
   // TODO: Handle API error

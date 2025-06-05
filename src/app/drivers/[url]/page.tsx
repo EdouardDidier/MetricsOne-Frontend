@@ -12,7 +12,7 @@ export default async function Page({
     process.env.API_HOST +
       ":" +
       process.env.API_PORT +
-      "/drivers/" +
+      "/2025/drivers/" +
       driverUrl +
       "?expand=images,team",
   );

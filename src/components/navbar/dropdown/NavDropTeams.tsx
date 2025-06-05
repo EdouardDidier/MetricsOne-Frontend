@@ -7,7 +7,10 @@ import ActiveBorder from "@/components/utils/ActiveBorder";
 export default async function NavDropTeams() {
   // Fetch teams data from API
   const response = await fetch(
-    process.env.API_HOST + ":" + process.env.API_PORT + "/teams?expand=images",
+    process.env.API_HOST +
+      ":" +
+      process.env.API_PORT +
+      "/2025/teams?expand=images",
   );
 
   // TODO: Handle fetch error

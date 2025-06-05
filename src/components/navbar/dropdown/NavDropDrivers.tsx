@@ -11,7 +11,7 @@ export default async function NavDropDrivers() {
     process.env.API_HOST +
       ":" +
       process.env.API_PORT +
-      "/drivers?expand=team,images",
+      "/2025/drivers?expand=team,images",
   );
 
   // TODO: Handle fetch error
