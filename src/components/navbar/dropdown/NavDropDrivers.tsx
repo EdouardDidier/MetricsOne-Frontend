@@ -11,14 +11,15 @@ export default async function NavDropDrivers() {
       ":" +
       process.env.API_PORT +
       "/2025/drivers?expand=team,images",
+    { next: { revalidate: 60 } },
   );
 
   // TODO: Handle fetch error
   // if (!data) return <>Error while loading data</>;
-  const data: Array<Driver> = await response.json();
+  const drivers: Array<Driver> = await response.json();
 
   // Sort driver by last name
-  data.sort((a: Driver, b: Driver) =>
+  drivers.sort((a: Driver, b: Driver) =>
     a.last_name > b.last_name ? 1 : b.last_name > a.last_name ? -1 : 0,
   );
 
@@ -28,7 +29,7 @@ export default async function NavDropDrivers() {
         <NavDropMainLink href="/drivers">All Drivers</NavDropMainLink>
       </div>
       <div className="grid grid-cols-4 gap-2 w-262 my-4 mx-auto">
-        {data.map((driver) => {
+        {drivers.map((driver) => {
           if (driver.images == null || driver.team == null) {
             return "Error";
           } //TODO: Handle null object
