@@ -11,6 +11,7 @@ export default async function NavDropTeams() {
       ":" +
       process.env.API_PORT +
       "/2025/teams?expand=images",
+    { next: { revalidate: 60 } },
   );
 
   // TODO: Handle fetch error
