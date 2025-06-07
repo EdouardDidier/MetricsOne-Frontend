@@ -6,7 +6,6 @@ import ActiveBorder from "@/components/utils/ActiveBorder";
 
 export default async function NavDropDrivers() {
   // Fetch data from OpenF1 API
-  // TODO: Update with M1 API when available
   const response = await fetch(
     process.env.API_HOST +
       ":" +
