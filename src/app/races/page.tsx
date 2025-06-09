@@ -31,7 +31,14 @@ export default function Page() {
           await new Promise((res) => setTimeout(res, 200));
         }
 
-        setMeetings(await response.json());
+        let data = await response.json();
+
+        // Sort driver by last name
+        data.sort((a: Meeting, b: Meeting) =>
+          a.number > b.number ? 1 : b.number > a.number ? -1 : 0,
+        );
+
+        setMeetings(data);
       } catch (error) {
         console.log("Failed to fetch meetings", error);
       } finally {
@@ -47,12 +54,18 @@ export default function Page() {
 
   if (isLoading)
     return (
-      <div
-        className="animate-spin inline-block size-6 border-3 border-current border-t-transparent text-red-600 rounded-full"
-        role="status"
-        aria-label="loading"
-      >
-        <span className="sr-only">Loading...</span>
+      <div>
+        <title>F1Metrics - Races</title>
+        <div className="mx-auto w-300">
+          <h1>Races</h1>
+          <div
+            className="mx-auto animate-spin inline-block size-6 border-3 border-current border-t-transparent text-red-600 rounded-full"
+            role="status"
+            aria-label="loading"
+          >
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
       </div>
     );
 
