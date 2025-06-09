@@ -1,16 +1,60 @@
-import { Meeting } from "@/types/Meeting";
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-  const response = await fetch(
-    process.env.API_HOST +
-      ":" +
-      process.env.API_PORT +
-      "/2025/meetings?expand=sessions",
-  );
+import { Meeting } from "@/types/Meeting";
 
-  const data: Array<Meeting> = await response.json();
+export default function Page() {
+  // TODO: This data fetching is a proof of concept for future pages
+  // Go back to server-side data fetching with revalidation later
+  const [meetings, setMeetings] = useState<Array<Meeting>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      try {
+        let response: Response = new Response();
+        let status = 0;
+
+        while (status != 200) {
+          response = await fetch(
+            process.env.API_HOST +
+              ":" +
+              process.env.API_PORT +
+              "/2025/meetings?expand=sessions",
+          );
+
+          status = response.status;
+
+          // Wait between each request
+          await new Promise((res) => setTimeout(res, 200));
+        }
+
+        setMeetings(await response.json());
+      } catch (error) {
+        console.log("Failed to fetch meetings", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    console.log("fetching meetings");
+    fetchMeetings();
+  }, []);
+
   // TODO: Handle API error
+
+  if (isLoading)
+    return (
+      <div
+        className="animate-spin inline-block size-6 border-3 border-current border-t-transparent text-red-600 rounded-full"
+        role="status"
+        aria-label="loading"
+      >
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
 
   return (
     <div>
@@ -18,10 +62,10 @@ export default async function Page() {
       <div className="mx-auto w-300">
         <h1>Races</h1>
         <div className="flex flex-col">
-          {data.map((meeting, i) => {
+          {meetings.map((meeting, i) => {
             if (meeting.sessions == null) {
               // TODO: Handle error correctly
-              return <div>Error</div>;
+              return <div key={i}>Error</div>;
             }
 
             const round = i != 0 ? "Round " + meeting.number : "Testing";
@@ -33,11 +77,11 @@ export default async function Page() {
 
             // TODO: create a helper function for formating date
             return (
-              <Link href={`/races/${meeting.location.toLowerCase()}`}>
-                <div
-                  key={meeting.name}
-                  className="my-1 border-solid border-1 border-gray-300"
-                >
+              <Link
+                key={meeting.name}
+                href={`/races/${meeting.location.toLowerCase()}`}
+              >
+                <div className="my-1 border-solid border-1 border-gray-300">
                   {round}
                   {": "}
                   {startDate.toLocaleString("en-US", { day: "2-digit" })}-
