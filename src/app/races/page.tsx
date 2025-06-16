@@ -31,7 +31,7 @@ export default function Page() {
           await new Promise((res) => setTimeout(res, 200));
         }
 
-        let data = await response.json();
+        const data = await response.json();
 
         // Sort driver by last name
         data.sort((a: Meeting, b: Meeting) =>
