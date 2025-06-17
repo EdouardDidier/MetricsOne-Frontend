@@ -8,7 +8,7 @@ import { Meeting } from "@/types/Meeting";
 export default function Page() {
   // TODO: This data fetching is a proof of concept for future pages
   // Go back to server-side data fetching with revalidation later
-  const [meetings, setMeetings] = useState<Array<Meeting>>([]);
+  const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -17,13 +17,9 @@ export default function Page() {
         let response: Response = new Response();
         let status = 0;
 
+        // TODO: Set-up a maximum of tries
         while (status != 200) {
-          response = await fetch(
-            process.env.API_HOST +
-              ":" +
-              process.env.API_PORT +
-              "/2025/meetings?expand=sessions",
-          );
+          response = await fetch("/api/2025/meetings?expand=sessions");
 
           status = response.status;
 
@@ -31,12 +27,7 @@ export default function Page() {
           await new Promise((res) => setTimeout(res, 200));
         }
 
-        const data = await response.json();
-
-        // Sort driver by last name
-        data.sort((a: Meeting, b: Meeting) =>
-          a.number > b.number ? 1 : b.number > a.number ? -1 : 0,
-        );
+        const data: Meeting[] = await response.json();
 
         setMeetings(data);
       } catch (error) {
@@ -46,7 +37,6 @@ export default function Page() {
       }
     };
 
-    console.log("fetching meetings");
     fetchMeetings();
   }, []);
 
