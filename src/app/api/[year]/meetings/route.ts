@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { context, propagation } from "@opentelemetry/api";
+
 import { Meeting } from "@/types/Meeting";
 
 export async function GET(
@@ -30,8 +32,12 @@ export async function GET(
       });
     }
 
-    console.log(apiUrl);
-    const response = await fetch(apiUrl);
+    // Inject the current trace context into headers
+    const headers = {};
+    propagation.inject(context.active(), headers);
+
+    // Fetching data from API
+    const response = await fetch(apiUrl, { headers });
 
     const data: Meeting[] = await response.json();
 
