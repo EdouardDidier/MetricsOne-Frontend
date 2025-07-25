@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { context, propagation } from "@opentelemetry/api";
-
 import { Meeting } from "@/types/Meeting";
 
 export async function GET(
@@ -32,13 +30,10 @@ export async function GET(
       });
     }
 
-    // Inject the current trace context into headers
-    const headers = {};
-    propagation.inject(context.active(), headers);
-
     // Fetching data from API
-    const response = await fetch(apiUrl, { headers });
+    const response = await fetch(apiUrl);
 
+    // Parsing JSON response
     const data: Meeting[] = await response.json();
 
     // Sort driver by last name
